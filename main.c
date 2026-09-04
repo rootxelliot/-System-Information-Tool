@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<unistd.h>
 #include<sys/utsname.h>
-
+#include<string.h>
 
 int main(void){
 
@@ -44,6 +44,24 @@ int main(void){
     }
     else{
         printf("Failed to get kernal information \n");
+    }
+    // CPU information
+    FILE *cpu_file;
+    char cpu_line[256];
+
+    cpu_file=fopen("/proc/cpuinfo","r");
+
+    if(cpu_file == NULL){
+        printf("CPU       :Failed to read CPU information");
+    }
+    else{
+        while(fgets(cpu_line,sizeof(cpu_line),cpu_file)){
+            if (strncmp(cpu_line,"model name",10) == 0){
+                printf("CPU       :%s",cpu_line);
+                break;
+            }
+        }
+        fclose(cpu_file);
     }
 
 
