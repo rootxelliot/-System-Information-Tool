@@ -63,7 +63,24 @@ int main(void){
         }
         fclose(cpu_file);
     }
+    //RAM INFORMATION
+    FILE *mem_file;
+    char mem_line[256];
 
+    mem_file= fopen("/proc/meminfo","r");
+
+    if(mem_file == NULL){
+        printf("RAM       :Failed to read memory information \n");
+    }
+    else{
+        while(fgets(mem_line,sizeof(mem_line),mem_file)){
+            if(strncmp(mem_line,"MemTotal",8)== 0){
+                printf("RAM TOTAL       :%s",mem_line);
+                break;
+            }
+        }
+        fclose(mem_file);
+    }
 
 
 
